@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: direction-service
+  namespace: direction-app
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 31318
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: direction
+    version: v1
+

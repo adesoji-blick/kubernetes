@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: direction
+    version: v1
+  name: direction
+  namespace: tutorial
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: direction
+      version: v1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: direction
+        version: v1
+    spec:
+      containers:
+      - image: blickng/direction-app-prod
+        name: direction-app-prod
+        ports:
+        - containerPort: 8080
+        env:
+        - name: loginname
+          value: myname
+        - name: loginpass
+          value: mypass
+        - name: api_key
+          value: my_google_api_key
+        resources: {}
+status: {}
+apiVersion: v1
+kind: Service
+metadata:
+  name: direction-service
+  namespace: tutorial
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 31318
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: direction
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx2
+  name: nginx2
+  namespace: tutorial
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx2
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: direction
+    version: v2
+  name: direction2
+  namespace: tutorial
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: direction
+      version: v2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: direction
+        version: v2
+    spec:
+      containers:
+      - image: blickng/direction-app-prod
+        name: direction-app-prod
+        ports:
+        - containerPort: 8080
+        env:
+        - name: loginname
+          value: myname
+        - name: loginpass
+          value: mypass
+        - name: api_key
+          value: my_google_api_key
+        resources: {}
+status: {}

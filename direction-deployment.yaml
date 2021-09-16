@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: direction
+    version: v1
+  name: direction
+  namespace: direction-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: direction
+      version: v1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: direction
+        version: v1
+    spec:
+      containers:
+      - image: blickng/direction-app-prod
+        name: direction-app-prod
+        ports:
+        - containerPort: 8080
+        env:
+        - name: loginname
+          value: test
+        - name: loginpass
+          value: test
+        - name: api_key
+          value: my_google_api_key
+        resources: {}
+status: {}
